@@ -1,0 +1,102 @@
+[gd_scene load_steps=10 format=3 uid="uid://bnv04bok0ynml"]
+
+[ext_resource type="Script" path="res://mob.gd" id="1_yt5cp"]
+[ext_resource type="Texture2D" uid="uid://bkyi6wns7qa8s" path="res://art/monsters/pumpkin.png" id="2_13n50"]
+[ext_resource type="Texture2D" uid="uid://qpw1by6tyvf8" path="res://art/monsters/duck.png" id="2_yhkwk"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h52o2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_yhkwk")
+}],
+"loop": true,
+"name": &"duck",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_13n50")
+}],
+"loop": false,
+"name": &"pumpkin",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ge8vt"]
+size = Vector2(127, 127)
+
+[sub_resource type="Animation" id="Animation_q14ad"]
+resource_name = "default"
+
+[sub_resource type="Animation" id="Animation_01mho"]
+resource_name = "spin"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_7c5ah"]
+resource_name = "spin_reversed"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bmt8a"]
+_data = {
+"default": SubResource("Animation_q14ad"),
+"spin": SubResource("Animation_01mho"),
+"spin_reversed": SubResource("Animation_7c5ah")
+}
+
+[node name="Mob" type="RigidBody2D" groups=["despawn"]]
+z_index = 1
+collision_mask = 0
+gravity_scale = 0.0
+linear_damp_mode = 1
+script = ExtResource("1_yt5cp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_h52o2")
+animation = &"duck"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_ge8vt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimatedSprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_bmt8a")
+}
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-10, -64, 20, 128)
+
+[node name="MobLabel" type="Label" parent="."]
+visible = false
+offset_left = 66.0
+offset_right = 271.0
+offset_bottom = 45.0
+text = "hello world"
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

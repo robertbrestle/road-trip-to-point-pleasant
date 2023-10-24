@@ -1,0 +1,163 @@
+[gd_scene load_steps=13 format=3 uid="uid://cm86gaoa7rhac"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_akipq"]
+[ext_resource type="Texture2D" uid="uid://dopcwew221yjb" path="res://art/player_center.png" id="1_n7hn7"]
+[ext_resource type="Texture2D" uid="uid://dvmsjpbqxmu2u" path="res://art/player_left.png" id="2_w1ycg"]
+[ext_resource type="Texture2D" uid="uid://b6xu3btl85uky" path="res://art/player_right.png" id="3_r0yvx"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5lihb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_n7hn7")
+}],
+"loop": true,
+"name": &"center",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_w1ycg")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_r0yvx")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vfhh"]
+size = Vector2(180, 60)
+
+[sub_resource type="Animation" id="Animation_wkwa8"]
+resource_name = "fast"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05)]
+}
+
+[sub_resource type="Animation" id="Animation_67tv5"]
+resource_name = "hit"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_xjdoj"]
+resource_name = "slow"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.01, 1.01)]
+}
+
+[sub_resource type="Animation" id="Animation_be1u8"]
+resource_name = "spin"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_dcynb"]
+resource_name = "ultra"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jkgik"]
+_data = {
+"fast": SubResource("Animation_wkwa8"),
+"hit": SubResource("Animation_67tv5"),
+"slow": SubResource("Animation_xjdoj"),
+"spin": SubResource("Animation_be1u8"),
+"ultra": SubResource("Animation_dcynb")
+}
+
+[node name="Player" type="Area2D" groups=["Player"]]
+script = ExtResource("1_akipq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5lihb")
+animation = &"center"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -94)
+shape = SubResource("RectangleShape2D_5vfhh")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jkgik")
+}
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 118.0
+offset_top = -63.0
+offset_right = 318.0
+offset_bottom = -8.0
+
+[node name="HitTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="SpinoutTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
+[connection signal="timeout" from="SpinoutTimer" to="." method="_on_spinout_timer_timeout"]

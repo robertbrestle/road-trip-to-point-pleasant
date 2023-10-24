@@ -1,0 +1,270 @@
+[gd_scene load_steps=17 format=3 uid="uid://ckl4n6qxrlcvo"]
+
+[ext_resource type="Script" path="res://hud.gd" id="1_ghlkv"]
+[ext_resource type="FontFile" uid="uid://mqyflaun1baf" path="res://fonts/Xolonium-Regular.ttf" id="2_ml80t"]
+[ext_resource type="Texture2D" uid="uid://kikwhcjrli0s" path="res://art/speedometer.png" id="3_dtac2"]
+[ext_resource type="Texture2D" uid="uid://bis8y0ey7febd" path="res://art/needle.png" id="4_87j72"]
+[ext_resource type="Texture2D" uid="uid://br4r8jmfn4sgi" path="res://art/gauges.png" id="5_cc47r"]
+[ext_resource type="Texture2D" uid="uid://bm68trwl4dy8m" path="res://art/icons/engine.png" id="6_3iobe"]
+[ext_resource type="Texture2D" uid="uid://bd044eq76nf8v" path="res://art/icons/oil.png" id="7_nb4mq"]
+[ext_resource type="Texture2D" uid="uid://bvpcfelvs57dl" path="res://art/icons/oil_temp.png" id="8_jfs13"]
+[ext_resource type="Texture2D" uid="uid://dkm0xb8vqsaf7" path="res://art/icons/tire.png" id="9_levnh"]
+[ext_resource type="Texture2D" uid="uid://dephb83o00ta8" path="res://art/icons/battery.png" id="10_kgguf"]
+
+[sub_resource type="Animation" id="Animation_g8pg8"]
+resource_name = "default"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FuelNeedle:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-1.11701, -1.0472]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rhhwn"]
+_data = {
+"default": SubResource("Animation_g8pg8")
+}
+
+[sub_resource type="Animation" id="Animation_ot75y"]
+resource_name = "default"
+length = 30.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OilNeedle:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 20.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.04196, 1.39626]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lpse1"]
+_data = {
+"default": SubResource("Animation_ot75y")
+}
+
+[sub_resource type="Animation" id="Animation_pla3a"]
+resource_name = "engine_flash"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Icons/IconEngine:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ibsm1"]
+_data = {
+"engine_flash": SubResource("Animation_pla3a")
+}
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_ghlkv")
+
+[node name="StartButton" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.5
+offset_top = -37.5
+offset_right = 75.5
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = " START "
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 1126.0
+offset_top = -4.0
+offset_right = 1276.0
+offset_bottom = 57.0
+theme_override_fonts/font = ExtResource("2_ml80t")
+theme_override_font_sizes/font_size = 48
+text = "00:00"
+
+[node name="Hearts" type="Node2D" parent="."]
+visible = false
+
+[node name="Message" type="Node2D" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Message"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 275.0
+offset_top = 243.0
+offset_right = 1009.0
+offset_bottom = 495.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.533333)
+
+[node name="TitleLabel" type="Label" parent="Message"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 418.0
+offset_top = 274.0
+offset_right = 862.0
+offset_bottom = 344.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "You made it to Point Pleasant!"
+horizontal_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="Message"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 514.5
+offset_top = 329.5
+offset_right = 765.5
+offset_bottom = 398.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 42
+text = "0.0 miles in 00:00"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="Message"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 532.0
+offset_top = 394.0
+offset_right = 749.0
+offset_bottom = 460.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 38
+text = " Play Again "
+
+[node name="Speedometer" type="Sprite2D" parent="." groups=["cluster"]]
+position = Vector2(1169, 628)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_dtac2")
+
+[node name="SpeedNeedle" type="Sprite2D" parent="." groups=["cluster"]]
+z_index = 1
+position = Vector2(1169.62, 628.359)
+rotation = -2.61799
+scale = Vector2(0.228975, 0.350913)
+texture = ExtResource("4_87j72")
+offset = Vector2(0, -150)
+
+[node name="MilageLabel" type="Label" parent="." groups=["cluster"]]
+offset_left = 1137.0
+offset_top = 650.0
+offset_right = 1194.0
+offset_bottom = 676.0
+theme_override_fonts/font = ExtResource("2_ml80t")
+theme_override_font_sizes/font_size = 12
+text = "100.00"
+horizontal_alignment = 2
+
+[node name="SpeedLabel" type="Label" parent="."]
+visible = false
+offset_left = 1120.0
+offset_top = 476.0
+offset_right = 1204.0
+offset_bottom = 514.0
+theme_override_fonts/font = ExtResource("2_ml80t")
+theme_override_font_sizes/font_size = 24
+text = "100"
+horizontal_alignment = 2
+
+[node name="Gauges" type="Sprite2D" parent="." groups=["cluster"]]
+position = Vector2(111, 628)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("5_cc47r")
+
+[node name="FuelNeedle" type="Sprite2D" parent="." groups=["cluster"]]
+position = Vector2(210, 629)
+rotation = -1.11701
+scale = Vector2(0.219396, 0.187676)
+texture = ExtResource("4_87j72")
+offset = Vector2(0, -150)
+
+[node name="OilNeedle" type="Sprite2D" parent="." groups=["cluster"]]
+position = Vector2(14, 628)
+rotation = 1.38745
+scale = Vector2(0.209981, 0.170589)
+texture = ExtResource("4_87j72")
+offset = Vector2(0, -150)
+
+[node name="Icons" type="Node2D" parent="." groups=["cluster"]]
+
+[node name="IconTire" type="Sprite2D" parent="Icons" groups=["icons"]]
+position = Vector2(85, 689)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("9_levnh")
+
+[node name="IconBattery" type="Sprite2D" parent="Icons" groups=["icons"]]
+position = Vector2(137, 563)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("10_kgguf")
+
+[node name="IconOilTemp" type="Sprite2D" parent="Icons" groups=["icons"]]
+position = Vector2(137, 689)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("8_jfs13")
+
+[node name="IconOil" type="Sprite2D" parent="Icons" groups=["icons"]]
+position = Vector2(88, 563)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_nb4mq")
+
+[node name="IconEngine" type="Sprite2D" parent="Icons" groups=["icons"]]
+position = Vector2(112, 628)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_3iobe")
+
+[node name="FuelAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rhhwn")
+}
+
+[node name="OilAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lpse1")
+}
+
+[node name="IconAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ibsm1")
+}
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Message/RestartButton" to="." method="_on_restart_button_pressed"]

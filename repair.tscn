@@ -1,0 +1,202 @@
+[gd_scene load_steps=14 format=3 uid="uid://co7jkisro5luc"]
+
+[ext_resource type="Texture2D" uid="uid://bct6otjpuvqpp" path="res://art/repair/background.png" id="1_7mi80"]
+[ext_resource type="Script" path="res://repair.gd" id="1_ylhh8"]
+[ext_resource type="FontFile" uid="uid://mqyflaun1baf" path="res://fonts/Xolonium-Regular.ttf" id="3_dmwft"]
+[ext_resource type="Texture2D" uid="uid://fquymbgiwj3u" path="res://art/icons/button_drill.png" id="4_p48t7"]
+[ext_resource type="Texture2D" uid="uid://eaow3q1lyfjn" path="res://art/icons/button_drill_pressed.png" id="5_w5drl"]
+[ext_resource type="Texture2D" uid="uid://lry6o7wflm1x" path="res://art/icons/button_hammer.png" id="6_rhvo0"]
+[ext_resource type="Texture2D" uid="uid://44b6hpoj5hhc" path="res://art/icons/button_hammer_pressed.png" id="7_l1igf"]
+[ext_resource type="Texture2D" uid="uid://c8ypbvfjw85qd" path="res://art/icons/button_wrench.png" id="8_5vhn0"]
+[ext_resource type="Texture2D" uid="uid://d30pwbewya32i" path="res://art/icons/button_wrench_pressed.png" id="9_jhsd8"]
+[ext_resource type="Texture2D" uid="uid://by2ydamc4o46n" path="res://art/icons/button_fluid.png" id="10_4hasv"]
+[ext_resource type="Texture2D" uid="uid://dxrywq71wvc3i" path="res://art/icons/button_fluid_pressed.png" id="11_rqyhg"]
+[ext_resource type="Texture2D" uid="uid://dgojqux7kmu8d" path="res://art/icons/button_screwdriver.png" id="12_ivdlo"]
+[ext_resource type="Texture2D" uid="uid://188aei05cktp" path="res://art/icons/button_screwdriver_pressed.png" id="13_8jd3p"]
+
+[node name="repair" type="Node2D"]
+script = ExtResource("1_ylhh8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = ExtResource("1_7mi80")
+
+[node name="ColorRectWhite" type="ColorRect" parent="."]
+offset_left = 156.0
+offset_top = 28.0
+offset_right = 1124.0
+offset_bottom = 84.0
+
+[node name="ColorRectBlack" type="ColorRect" parent="."]
+offset_left = 160.0
+offset_top = 32.0
+offset_right = 1120.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+modulate = Color(0, 1, 0, 1)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 160.0
+offset_top = 32.0
+offset_right = 1120.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_dmwft")
+theme_override_font_sizes/font_size = 32
+
+[node name="ScrewdriverTextureButton" type="TextureButton" parent="."]
+offset_left = 640.0
+offset_top = 600.0
+offset_right = 740.0
+offset_bottom = 700.0
+texture_normal = ExtResource("12_ivdlo")
+texture_pressed = ExtResource("13_8jd3p")
+
+[node name="Label" type="Label" parent="ScrewdriverTextureButton"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 81.0
+offset_right = 76.0
+offset_bottom = 133.0
+theme_override_fonts/font = ExtResource("3_dmwft")
+theme_override_font_sizes/font_size = 40
+text = "1"
+horizontal_alignment = 1
+
+[node name="FluidTextureButton" type="TextureButton" parent="."]
+offset_left = 770.0
+offset_top = 600.0
+offset_right = 870.0
+offset_bottom = 700.0
+texture_normal = ExtResource("10_4hasv")
+texture_pressed = ExtResource("11_rqyhg")
+
+[node name="Label" type="Label" parent="FluidTextureButton"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 81.0
+offset_right = 71.0
+offset_bottom = 133.0
+theme_override_fonts/font = ExtResource("3_dmwft")
+theme_override_font_sizes/font_size = 40
+text = "2"
+horizontal_alignment = 1
+
+[node name="DrillTextureButton" type="TextureButton" parent="."]
+offset_left = 900.0
+offset_top = 600.0
+offset_right = 1000.0
+offset_bottom = 700.0
+texture_normal = ExtResource("4_p48t7")
+texture_pressed = ExtResource("5_w5drl")
+
+[node name="Label" type="Label" parent="DrillTextureButton"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 81.0
+offset_right = 71.0
+offset_bottom = 133.0
+theme_override_fonts/font = ExtResource("3_dmwft")
+theme_override_font_sizes/font_size = 40
+text = "3"
+horizontal_alignment = 1
+
+[node name="HammerTextureButton" type="TextureButton" parent="."]
+offset_left = 1030.0
+offset_top = 600.0
+offset_right = 1130.0
+offset_bottom = 700.0
+texture_normal = ExtResource("6_rhvo0")
+texture_pressed = ExtResource("7_l1igf")
+
+[node name="Label" type="Label" parent="HammerTextureButton"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 81.0
+offset_right = 71.0
+offset_bottom = 133.0
+theme_override_fonts/font = ExtResource("3_dmwft")
+theme_override_font_sizes/font_size = 40
+text = "4"
+horizontal_alignment = 1
+
+[node name="WrenchTextureButton" type="TextureButton" parent="."]
+offset_left = 1160.0
+offset_top = 600.0
+offset_right = 1260.0
+offset_bottom = 700.0
+texture_normal = ExtResource("8_5vhn0")
+texture_pressed = ExtResource("9_jhsd8")
+
+[node name="Label" type="Label" parent="WrenchTextureButton"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 81.0
+offset_right = 71.0
+offset_bottom = 133.0
+theme_override_fonts/font = ExtResource("3_dmwft")
+theme_override_font_sizes/font_size = 40
+text = "5"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 603.0
+offset_right = 609.0
+offset_bottom = 704.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 601.0
+offset_right = 611.0
+offset_bottom = 703.0
+theme_override_fonts/font = ExtResource("3_dmwft")
+theme_override_font_sizes/font_size = 39
+text = "Hammer the battery and fusebox 3 times"
+autowrap_mode = 2
+
+[node name="BatteryArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BatteryArea"]
+position = Vector2(360, 0)
+polygon = PackedVector2Array(384, 122, 482, 235, 692, 166, 614, 91, 487, 86)
+
+[node name="EngineArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EngineArea"]
+position = Vector2(360, 0)
+polygon = PackedVector2Array(-36, 281, 393, 144, 478, 235, 507, 313, 480, 409, 321, 482, 176, 423, 96, 459)
+
+[node name="AlternatorArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AlternatorArea"]
+position = Vector2(365, 3)
+polygon = PackedVector2Array(110, 466, 144, 564, 247, 530, 177, 432)
+
+[node name="FluidsArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FluidsArea"]
+position = Vector2(360, 0)
+polygon = PackedVector2Array(-96, 324, -25, 302, 103, 476, 141, 573, 260, 534, 216, 473, 250, 457, 322, 491, 483, 412, 513, 348, 627, 394, 287, 530, 116, 585, -37, 582)
+
+[node name="AirArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AirArea"]
+position = Vector2(360, 0)
+polygon = PackedVector2Array(570, 211, 664, 182, 788, 321, 675, 402, 527, 343, 488, 241)
+
+[connection signal="pressed" from="ScrewdriverTextureButton" to="." method="_on_screwdriver_texture_button_pressed"]
+[connection signal="pressed" from="FluidTextureButton" to="." method="_on_fluid_texture_button_pressed"]
+[connection signal="pressed" from="DrillTextureButton" to="." method="_on_drill_texture_button_pressed"]
+[connection signal="pressed" from="HammerTextureButton" to="." method="_on_hammer_texture_button_pressed"]
+[connection signal="pressed" from="WrenchTextureButton" to="." method="_on_wrench_texture_button_pressed"]
+[connection signal="input_event" from="BatteryArea" to="." method="_on_battery_area_input_event"]
+[connection signal="input_event" from="EngineArea" to="." method="_on_engine_area_input_event"]
+[connection signal="input_event" from="AlternatorArea" to="." method="_on_alternator_area_input_event"]
+[connection signal="input_event" from="FluidsArea" to="." method="_on_fluids_area_input_event"]
+[connection signal="input_event" from="AirArea" to="." method="_on_air_area_input_event"]

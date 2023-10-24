@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://djnyhyxonna81"]
+
+[ext_resource type="Texture2D" uid="uid://c2mx1q3naf05a" path="res://art/lines.png" id="1_gisqc"]
+[ext_resource type="Script" path="res://road_lines.gd" id="2_ngl1u"]
+
+[node name="RoadLines" type="Sprite2D"]
+texture = ExtResource("1_gisqc")
+script = ExtResource("2_ngl1u")

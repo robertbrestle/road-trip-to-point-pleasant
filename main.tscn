@@ -1,0 +1,113 @@
+[gd_scene load_steps=11 format=3 uid="uid://d2cf7amudk5bh"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_3x647"]
+[ext_resource type="PackedScene" uid="uid://bnv04bok0ynml" path="res://mob.tscn" id="2_r8yxc"]
+[ext_resource type="PackedScene" uid="uid://cm86gaoa7rhac" path="res://player.tscn" id="2_xm6sk"]
+[ext_resource type="Texture2D" uid="uid://b62ss0acvyoa6" path="res://art/backgrounds/background.png" id="3_5aq6q"]
+[ext_resource type="PackedScene" uid="uid://457ccgqof86" path="res://static_object.tscn" id="3_7edhw"]
+[ext_resource type="PackedScene" uid="uid://ckl4n6qxrlcvo" path="res://hud.tscn" id="4_iq0ik"]
+[ext_resource type="PackedScene" uid="uid://co7jkisro5luc" path="res://repair.tscn" id="4_vpceu"]
+[ext_resource type="Texture2D" uid="uid://cx2w5omy1y8bm" path="res://art/backgrounds/road_no_lines.png" id="5_j0awg"]
+
+[sub_resource type="Curve2D" id="Curve2D_yo7gd"]
+_data = {
+"points": PackedVector2Array(-170.013, -2.16583, 0, 0, 590, 100, 0, 0, 0, 0, 690, 100)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_sngwh"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -40, 780, 0, 0, 0, 0, 1320, 780)
+}
+point_count = 2
+
+[node name="Main" type="Node"]
+script = ExtResource("1_3x647")
+mob_scene = ExtResource("2_r8yxc")
+static_object_scene = ExtResource("3_7edhw")
+repair_scene = ExtResource("4_vpceu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.133333, 0.211765, 0.192157, 1)
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("3_5aq6q")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("5_j0awg")
+
+[node name="Player" parent="." instance=ExtResource("2_xm6sk")]
+z_index = 1
+position = Vector2(640, 576)
+
+[node name="HUD" parent="." instance=ExtResource("4_iq0ik")]
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(640, 576)
+
+[node name="PlayerBoundaryStart" type="Node2D" parent="."]
+position = Vector2(200, 500)
+
+[node name="PlayerBoundaryEnd" type="Node2D" parent="."]
+position = Vector2(1100, 720)
+
+[node name="TestLabel" type="Label" parent="."]
+visible = false
+offset_left = 11.0
+offset_top = 277.0
+offset_right = 522.0
+offset_bottom = 481.0
+text = "hello world"
+
+[node name="TestLabel2" type="Label" parent="."]
+visible = false
+offset_left = 111.0
+offset_top = 352.0
+offset_right = 198.0
+offset_bottom = 378.0
+text = "hello world"
+
+[node name="MobTimer" type="Timer" parent="."]
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="MobPathStart" type="Path2D" parent="."]
+curve = SubResource("Curve2D_yo7gd")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPathStart"]
+position = Vector2(590, 100)
+
+[node name="MobPathEnd" type="Path2D" parent="."]
+curve = SubResource("Curve2D_sngwh")
+
+[node name="MobDespawnLocation" type="PathFollow2D" parent="MobPathEnd"]
+position = Vector2(-40, 780)
+
+[node name="SignStart" type="Marker2D" parent="."]
+position = Vector2(540, 100)
+
+[node name="SignEnd" type="Marker2D" parent="."]
+position = Vector2(-300, 780)
+
+[node name="CarHitSounds" type="AudioStreamPlayer" parent="."]
+volume_db = -16.0
+
+[node name="RepairMinigame" parent="." instance=ExtResource("4_vpceu")]
+visible = false
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="spinout" from="Player" to="." method="_on_player_spinout"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="complete" from="RepairMinigame" to="." method="_on_repair_minigame_complete"]

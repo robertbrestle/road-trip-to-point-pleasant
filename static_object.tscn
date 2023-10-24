@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://457ccgqof86"]
+
+[ext_resource type="Script" path="res://static_object.gd" id="2_2d0mc"]
+
+[node name="static_object" type="RigidBody2D" groups=["despawn"]]
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+linear_damp_mode = 1
+script = ExtResource("2_2d0mc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="SignLabel" type="Label" parent="Sprite2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -283.0
+offset_top = -292.0
+offset_right = -16.0
+offset_bottom = -92.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = -24
+theme_override_font_sizes/font_size = 80
+text = "Mile
+0.25"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1, 5.5)
+scale = Vector2(13.9, 14.45)
+metadata/_edit_lock_ = true
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
