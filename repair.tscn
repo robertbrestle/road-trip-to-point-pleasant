@@ -14,8 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://dgojqux7kmu8d" path="res://art/icons/button_screwdriver.png" id="12_ivdlo"]
 [ext_resource type="Texture2D" uid="uid://188aei05cktp" path="res://art/icons/button_screwdriver_pressed.png" id="13_8jd3p"]
 
-[node name="repair" type="Node2D"]
+[node name="Repair" type="Node2D"]
 script = ExtResource("1_ylhh8")
+audio_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(640, 360)
@@ -189,6 +190,9 @@ polygon = PackedVector2Array(-96, 324, -25, 302, 103, 476, 141, 573, 260, 534, 2
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AirArea"]
 position = Vector2(360, 0)
 polygon = PackedVector2Array(570, 211, 664, 182, 788, 321, 675, 402, 527, 343, 488, 241)
+
+[node name="ToolSound" type="AudioStreamPlayer" parent="."]
+volume_db = -16.0
 
 [connection signal="pressed" from="ScrewdriverTextureButton" to="." method="_on_screwdriver_texture_button_pressed"]
 [connection signal="pressed" from="FluidTextureButton" to="." method="_on_fluid_texture_button_pressed"]

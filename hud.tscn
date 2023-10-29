@@ -78,22 +78,61 @@ _data = {
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_ghlkv")
 
-[node name="StartButton" type="Button" parent="."]
+[node name="TitleScreen" type="Node2D" parent="."]
+
+[node name="TitleLabel" type="Label" parent="TitleScreen"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -75.5
-offset_top = -37.5
-offset_right = 75.5
-offset_bottom = 37.5
+offset_left = 29.0
+offset_top = 15.0
+offset_right = 721.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Road Trip to Point Pleasant"
+
+[node name="DistanceLabel" type="Label" parent="TitleScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 63.5
+offset_top = 102.5
+offset_right = 493.5
+offset_bottom = 296.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "a game jam game by Robert Brestle
+
+WASD or Arrows = movement
+Space = emergency brake
+Click = tools"
+
+[node name="StartButton" type="Button" parent="TitleScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 552.5
+offset_top = 322.5
+offset_right = 727.5
+offset_bottom = 397.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 text = " START "
 
 [node name="ScoreLabel" type="Label" parent="."]
+visible = false
 offset_left = 1126.0
 offset_top = -4.0
 offset_right = 1276.0
@@ -102,36 +141,33 @@ theme_override_fonts/font = ExtResource("2_ml80t")
 theme_override_font_sizes/font_size = 48
 text = "00:00"
 
-[node name="Hearts" type="Node2D" parent="."]
+[node name="SuccessScreen" type="Node2D" parent="."]
 visible = false
 
-[node name="Message" type="Node2D" parent="."]
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="Message"]
+[node name="ColorRect" type="ColorRect" parent="SuccessScreen"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 275.0
-offset_top = 243.0
+offset_top = 223.0
 offset_right = 1009.0
-offset_bottom = 495.0
+offset_bottom = 516.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.533333)
+color = Color(0, 0, 0, 0.2)
 
-[node name="TitleLabel" type="Label" parent="Message"]
+[node name="TitleLabel" type="Label" parent="SuccessScreen"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 418.0
-offset_top = 274.0
-offset_right = 862.0
-offset_bottom = 344.0
+offset_left = 294.0
+offset_top = 226.0
+offset_right = 986.0
+offset_bottom = 296.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -139,37 +175,54 @@ theme_override_font_sizes/font_size = 48
 text = "You made it to Point Pleasant!"
 horizontal_alignment = 1
 
-[node name="MessageLabel" type="Label" parent="Message"]
+[node name="DistanceLabel" type="Label" parent="SuccessScreen"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 514.5
-offset_top = 329.5
-offset_right = 765.5
-offset_bottom = 398.5
+offset_left = 442.0
+offset_top = 294.0
+offset_right = 838.0
+offset_bottom = 355.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 42
-text = "0.0 miles in 00:00"
+text = "10.03 miles in 00:00"
 horizontal_alignment = 1
 
-[node name="RestartButton" type="Button" parent="Message"]
+[node name="PenaltyLabel" type="Label" parent="SuccessScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 442.0
+offset_top = 356.0
+offset_right = 838.0
+offset_bottom = 417.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 42
+text = "100 enemies hit"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="SuccessScreen"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 532.0
-offset_top = 394.0
+offset_top = 433.0
 offset_right = 749.0
-offset_bottom = 460.0
+offset_bottom = 499.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 38
-text = " Play Again "
+text = "RESET"
 
 [node name="Speedometer" type="Sprite2D" parent="." groups=["cluster"]]
 position = Vector2(1169, 628)
@@ -266,5 +319,5 @@ libraries = {
 "": SubResource("AnimationLibrary_ibsm1")
 }
 
-[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="Message/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="TitleScreen/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="SuccessScreen/RestartButton" to="." method="_on_restart_button_pressed"]

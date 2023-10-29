@@ -151,6 +151,7 @@ offset_left = 118.0
 offset_top = -63.0
 offset_right = 318.0
 offset_bottom = -8.0
+text = "hello world"
 
 [node name="HitTimer" type="Timer" parent="."]
 wait_time = 2.0

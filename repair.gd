@@ -5,12 +5,15 @@ signal complete
 var textures = {}
 var names = {}
 var section_names = {}
+var tool_sounds = {}
 
 var instructions = []
 var current_instruction = {}
 
 var tool: String = ""
 var section: String = ""
+
+@export var audio_enabled: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -34,6 +37,14 @@ func _ready():
 		"alternator": "alternator",
 		"fluids": "fluid lines",
 		"air": "air filter"
+	}
+	tool_sounds = {
+		"drill": preload("res://audio/repair/drill.mp3"),
+		"hammer": preload("res://audio/repair/hammer.mp3"),
+		"wrench": preload("res://audio/repair/wrench.mp3"),
+		"fluid": preload("res://audio/repair/fluid.mp3"),
+		"screwdriver": preload("res://audio/repair/drill.mp3"),
+		"bad": preload("res://audio/hit3.wav")
 	}
 	
 	#reset()
@@ -118,12 +129,17 @@ func process_action(section):
 	if current_instruction.tool == tool and current_instruction.section == section:
 		current_instruction.amount -= 1
 		$ProgressBar.value += 1
+		if audio_enabled:
+			$ToolSound.stream = tool_sounds[tool]
+			$ToolSound.play()
 		if current_instruction.amount <= 0:
 			get_next_instruction()
 	else:
 		current_instruction.amount += 1
-		#$ProgressBar.value -= 1
 		$ProgressBar.max_value += 1
+		if audio_enabled:
+			$ToolSound.stream = tool_sounds["bad"]
+			$ToolSound.play()
 	if current_instruction.size() > 0:
 		$Label.text = current_instruction.tool_name + " the " + current_instruction.section_name + " " + str(current_instruction.amount) + " times!"
 
@@ -176,4 +192,3 @@ func _on_air_area_input_event(viewport, event, shape_idx):
 		event.is_pressed()
 	):
 		process_action("air")
-

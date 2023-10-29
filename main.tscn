@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d2cf7amudk5bh"]
+[gd_scene load_steps=12 format=3 uid="uid://d2cf7amudk5bh"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_3x647"]
 [ext_resource type="PackedScene" uid="uid://bnv04bok0ynml" path="res://mob.tscn" id="2_r8yxc"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ckl4n6qxrlcvo" path="res://hud.tscn" id="4_iq0ik"]
 [ext_resource type="PackedScene" uid="uid://co7jkisro5luc" path="res://repair.tscn" id="4_vpceu"]
 [ext_resource type="Texture2D" uid="uid://cx2w5omy1y8bm" path="res://art/backgrounds/road_no_lines.png" id="5_j0awg"]
+[ext_resource type="AudioStream" uid="uid://b7qgqet7wn1se" path="res://audio/cr_flute.mp3" id="9_0eoa6"]
 
 [sub_resource type="Curve2D" id="Curve2D_yo7gd"]
 _data = {
@@ -26,6 +27,7 @@ script = ExtResource("1_3x647")
 mob_scene = ExtResource("2_r8yxc")
 static_object_scene = ExtResource("3_7edhw")
 repair_scene = ExtResource("4_vpceu")
+audio_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -101,6 +103,10 @@ position = Vector2(-300, 780)
 
 [node name="CarHitSounds" type="AudioStreamPlayer" parent="."]
 volume_db = -16.0
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_0eoa6")
+volume_db = -32.0
 
 [node name="RepairMinigame" parent="." instance=ExtResource("4_vpceu")]
 visible = false

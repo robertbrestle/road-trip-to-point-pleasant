@@ -14,6 +14,8 @@ signal spinout
 
 @export var is_paused: bool = false
 
+@export var mobs_hit: int = 0
+
 
 const HORIZONTAL_SPEED_MAX: float = 800
 
@@ -21,8 +23,9 @@ const FAST_THRESHOLD: float = 6500
 const ULTRA_FAST_THRESHOLD: float = 10400
 const TOP_SPEED: float = 13000
 
-const ACCELERATION: int = 20
-const DECELERATION: int = 40
+const SPEED_ACCELERATION: int = 20
+const SPEED_DECELERATION: int = 80
+const SPEED_E_BRAKE: int = 200
 const HIT_PENALTY: int = 1000
 
 var is_game_over: bool = false
@@ -41,7 +44,8 @@ func _ready():
 
 func start(pos, boundaryStart, boundaryEnd):
 	car_speed = 0
-	#distance_traveled = 0
+	mobs_hit = 0
+	
 	is_game_over = false
 	position = pos
 	boundary_start = Vector2(boundaryStart)
@@ -82,30 +86,35 @@ func _process(delta):
 		velocity.x -= 1
 
 	# change velocity
-	if Input.is_action_pressed("move_down") and car_speed > 0:
-		#velocity.y += 1
-		car_speed -= DECELERATION
-		if car_speed < 0:
-			car_speed = 0
-	if Input.is_action_pressed("move_up") and car_speed < TOP_SPEED:
-		#velocity.y -= 1
-		car_speed += ACCELERATION
-		
+	if Input.is_action_pressed("e_brake") and car_speed > 0:
+		car_speed -= SPEED_E_BRAKE
+	elif Input.is_action_pressed("move_down") and car_speed > 0:
+		car_speed -= SPEED_DECELERATION
+	elif Input.is_action_pressed("move_up") and car_speed < TOP_SPEED:
+		car_speed += SPEED_ACCELERATION
+	# prevent negative speeds
+	if car_speed < 0:
+		car_speed = 0
+	
+	$Label.text = "car_speed = " + var_to_str(car_speed)
 	
 	if velocity.length() > 0:
-		# normalized() prevent faster diagonal movement
-		var speed_penalty = 5000 / car_speed
-		# TODO: redo this
-		var new_velocity = velocity.normalized() * HORIZONTAL_SPEED_MAX * speed_penalty
-		# TODO: seriously, fix this please
-		if abs(new_velocity.x) > HORIZONTAL_SPEED_MAX:
-			new_velocity = velocity.normalized() * HORIZONTAL_SPEED_MAX
-		velocity = new_velocity
+		# scale horizontal speed relative to car_speed
+		if car_speed < HORIZONTAL_SPEED_MAX:
+			velocity = velocity.normalized() * car_speed
+		else:
+			var speed_penalty = FAST_THRESHOLD / car_speed
+			# if player is going above FAST_THRESHOLD, apply a negative modifier to the horizontal movement
+			if speed_penalty < 1:
+				velocity = velocity.normalized() * HORIZONTAL_SPEED_MAX * speed_penalty
+			else: # apply regular horizontal max speed
+				velocity = velocity.normalized() * HORIZONTAL_SPEED_MAX
+		
 		$AnimatedSprite2D.play()
 	else:
 		$AnimatedSprite2D.stop()
 	
-	$Label.text = "Player.velocity = " + var_to_str(velocity)
+	#$Label.text = "Player.velocity = " + var_to_str(velocity)
 		
 	# prevent player from leaving the screen
 	position += velocity * delta
@@ -133,12 +142,12 @@ func _process(delta):
 		$AnimationPlayer.play("slow")
 
 func _on_body_entered(body):
-	
-	# TODO: check group
-	
 	# remove enemy
 	body.queue_free()
 	
+	mobs_hit += 1
+	
+	# if hit, ignore penalty
 	if is_hit:
 		return
 	is_hit = true

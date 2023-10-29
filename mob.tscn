@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bnv04bok0ynml"]
+[gd_scene load_steps=12 format=3 uid="uid://bnv04bok0ynml"]
 
 [ext_resource type="Script" path="res://mob.gd" id="1_yt5cp"]
 [ext_resource type="Texture2D" uid="uid://bkyi6wns7qa8s" path="res://art/monsters/pumpkin.png" id="2_13n50"]
 [ext_resource type="Texture2D" uid="uid://qpw1by6tyvf8" path="res://art/monsters/duck.png" id="2_yhkwk"]
+[ext_resource type="Texture2D" uid="uid://dnfv4ir58arav" path="res://art/monsters/ghost.png" id="3_h0ht6"]
+[ext_resource type="Texture2D" uid="uid://bstrh47vti6cs" path="res://art/monsters/skull.png" id="5_r82oh"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h52o2"]
 animations = [{
@@ -16,10 +18,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("3_h0ht6")
+}],
+"loop": true,
+"name": &"ghost",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("2_13n50")
 }],
 "loop": false,
 "name": &"pumpkin",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_r82oh")
+}],
+"loop": true,
+"name": &"skull",
 "speed": 5.0
 }]
 
@@ -77,7 +95,7 @@ script = ExtResource("1_yt5cp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_h52o2")
-animation = &"duck"
+animation = &"skull"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -0.5)

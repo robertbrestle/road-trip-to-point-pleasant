@@ -15,12 +15,15 @@ func _on_start_button_pressed():
 	start_new_game()
 
 func _on_restart_button_pressed():
-	start_new_game()
+	$TitleScreen.show()
+	$SuccessScreen.hide()
+	$ScoreLabel.hide()
+	hide_all_icons()
 	
 func start_new_game():
+	$TitleScreen.hide()
+	$SuccessScreen.hide()
 	$ScoreLabel.show()
-	$StartButton.hide()
-	$Message.hide()
 	start_game.emit()
 	$FuelAnimationPlayer.play("default")
 	$OilAnimationPlayer.play("default")
@@ -44,15 +47,6 @@ func update_health(health, health_max):
 	if icons_to_show > MAX_ICONS:
 		$IconAnimationPlayer.play("engine_flash")
 	
-#	# render new hearts
-#	var image = Image.new()
-#	image.load("res://art/icons/engine.png")
-#	for n in health:
-#		var sprite = Sprite2D.new()
-#		sprite.texture = ImageTexture.create_from_image(image)
-#		sprite.position = Vector2((n * ICON_OFFSET) + ICON_SIZE, ICON_SIZE)
-#		sprite.scale = Vector2(ICON_SCALE, ICON_SCALE)
-#		$Hearts.add_child(sprite)
 
 func hide_all_icons():
 	$IconAnimationPlayer.stop()
@@ -90,11 +84,12 @@ func get_time_string(time):
 	return str(time_string)
 
 # show the game over screens
-func show_game_over(title, time, distance):
+func show_game_over(title, time, distance, mobs_hit):
 	$ScoreLabel.hide()
-	get_node("Message/TitleLabel").text = title
-	get_node("Message/MessageLabel").text = distance + " miles in " + get_time_string(time)
-	$Message.show()
+	get_node("SuccessScreen/TitleLabel").text = title
+	get_node("SuccessScreen/DistanceLabel").text = distance + " miles in " + get_time_string(time)
+	get_node("SuccessScreen/PenaltyLabel").text = str(mobs_hit) + " enemies hit"
+	$SuccessScreen.show()
 
 func toggle_cluster(enabled):
 	var nodes = get_tree().get_nodes_in_group("cluster")

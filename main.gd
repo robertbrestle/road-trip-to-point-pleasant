@@ -4,9 +4,7 @@ extends Node
 @export var static_object_scene: PackedScene
 @export var repair_scene: PackedScene
 
-
 @export var audio_enabled: bool = false
-
 @export var is_paused: bool = false
 
 var player_distance_last_mob_spawn: int
@@ -15,35 +13,36 @@ var spawn_mob_distance: int = 100
 var elapsed_seconds: int = 0
 var distance_traveled: float = 0
 
+const DISTANCE_OFFSET: int = 160
 const QUARTER_MILE: int = 1320
 const FULL_MILE: int = 5280
-const FINISH_DISTANCE: int = (FULL_MILE * 10) + 160
-var next_mile_marker: int = 0
+const FINISH_DISTANCE: int = (FULL_MILE * 10) + DISTANCE_OFFSET
 
-# 41.25 = 128th of a mile
-# 20.625 = 256th of a mile
-const ROAD_LINE_INTERVAL: float = 41.25
+
+const ROAD_LINE_INTERVAL: float = 41.25 # 128th of a mile
 var next_road_line: int = 0
+var next_mile_marker: int = 0
 
 var sign_texture
 var road_line_texture
 var hit_sounds = []
+var spinout_sound
+var tada_sound
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# only needed when you run game without HUD
-	#new_game()
-	
 	# preload textures
 	sign_texture = preload("res://art/sign.png")
 	road_line_texture = preload("res://art/backgrounds/road_lines_3.png")
-
 	# preload audio clips	
 	hit_sounds.push_back(preload("res://audio/hit1.wav"))
 	hit_sounds.push_back(preload("res://audio/hit2.wav"))
 	hit_sounds.push_back(preload("res://audio/hit3.wav"))
+	spinout_sound = preload("res://audio/screech.mp3")
+	tada_sound = preload("res://audio/tada.mp3")
 	
-	pass
+	if audio_enabled:
+		$Music.play()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -82,7 +81,7 @@ func _on_hud_start_game():
 	$MobTimer.wait_time = 1
 	$MobTimer.start()
 	
-	$ScoreTimer.wait_time = 0
+	$ScoreTimer.wait_time = 1
 	$ScoreTimer.start()
 	
 	$HUD.update_score(elapsed_seconds)
@@ -91,7 +90,10 @@ func _on_hud_start_game():
 	# deletes all spawned nodes
 	get_tree().call_group("despawn", "queue_free")
 	
-	#$Music.play()
+	# stop title music
+	$Music.stop()
+	
+	is_paused = false
 
 func _on_mob_timer_timeout():
 	if player_distance_last_mob_spawn + spawn_mob_distance < distance_traveled:
@@ -152,6 +154,10 @@ func spawn_road_line(side):
 
 func start_repair_minigame():
 	is_paused = true
+	if audio_enabled:
+		$CarHitSounds.stop()
+		$CarHitSounds.stream = spinout_sound
+		$CarHitSounds.play()
 	$Player.start_spinout()
 	$HUD.toggle_cluster(false)
 
@@ -190,14 +196,17 @@ func _on_player_hit():
 	$HUD.update_health($Player.health, $Player.health_max)
 	if $Player.health == 0:
 		start_repair_minigame()
-		#game_over()
 
 func game_over():
 	$MobTimer.stop()
 	$ScoreTimer.stop()
 	$Player.stop()
-	$HUD.show_game_over("You made it to Point Pleasant!", elapsed_seconds, get_mileage_string(distance_traveled))
-	# TODO: play music
+	$HUD.show_game_over("You made it to Point Pleasant!", elapsed_seconds, get_mileage_string(distance_traveled - DISTANCE_OFFSET), $Player.mobs_hit)
+	is_paused = true
+	if audio_enabled:
+		$CarHitSounds.stop()
+		$CarHitSounds.stream = tada_sound
+		$CarHitSounds.play()
 
 func _on_score_timer_timeout():
 	elapsed_seconds += 1
