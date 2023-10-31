@@ -13,6 +13,7 @@ You are in the home stretch of a road trip to the annual Mothman Festival in Poi
 ## Driving
 Move left/right = `A`/`D` or left/right arrow keys  
 Accelerate/decelerate = `W`/`S` or up/down arrow keys  
+Emergency brake = `Space`  
 
 ## Repair
 Select tool = left mouse click or number keys 1-5  
