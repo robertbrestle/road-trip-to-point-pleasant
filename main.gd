@@ -4,7 +4,7 @@ extends Node
 @export var static_object_scene: PackedScene
 @export var repair_scene: PackedScene
 
-@export var audio_enabled: bool = false
+@export var audio_enabled: bool = true
 @export var is_paused: bool = false
 
 var player_distance_last_mob_spawn: int
@@ -25,6 +25,7 @@ var next_mile_marker: int = 0
 
 var sign_texture
 var road_line_texture
+var mothman_texture
 var hit_sounds = []
 var spinout_sound
 var tada_sound
@@ -34,6 +35,7 @@ func _ready():
 	# preload textures
 	sign_texture = preload("res://art/sign.png")
 	road_line_texture = preload("res://art/backgrounds/road_lines_3.png")
+	mothman_texture = preload("res://art/monsters/mothman_big.png")
 	# preload audio clips	
 	hit_sounds.push_back(preload("res://audio/hit1.wav"))
 	hit_sounds.push_back(preload("res://audio/hit2.wav"))
@@ -98,7 +100,11 @@ func _on_hud_start_game():
 func _on_mob_timer_timeout():
 	if player_distance_last_mob_spawn + spawn_mob_distance < distance_traveled:
 		player_distance_last_mob_spawn = distance_traveled
-		spawn_mob()
+		if randi_range(0, 10) == 10:
+			spawn_mothman()
+		else:
+			spawn_mob()
+	
 	if $Player.is_over_fast_threshold():
 		$MobTimer.wait_time = randf_range(.3, 1)
 	else:
@@ -108,6 +114,26 @@ func spawn_mob():
 	# create instance of the mob scene
 	var mob = mob_scene.instantiate()
 	mob.add_to_group("static")
+	# choose spawn/despawn location
+	var mob_spawn_location = get_node("MobPathStart/MobSpawnLocation")
+	mob_spawn_location.progress_ratio = randf();
+	var mob_despawn_location = get_node("MobPathEnd/MobDespawnLocation")
+	mob_despawn_location.progress_ratio = randf();
+	# set the mob's position to a NON-random location
+	mob.position = mob_spawn_location.position
+	mob.rotation = 0
+	# set velocity - mob script multiplies velocity by player speed
+	mob.linear_velocity = mob_spawn_location.position.direction_to(mob_despawn_location.position)
+
+	add_child(mob)
+
+func spawn_mothman():
+	# create instance of the mob scene
+	var mob = mob_scene.instantiate()
+	mob.add_to_group("static")
+	# is mothman!
+	mob.is_mothman = true
+	mob.mothman_texture = mothman_texture
 	# choose spawn/despawn location
 	var mob_spawn_location = get_node("MobPathStart/MobSpawnLocation")
 	mob_spawn_location.progress_ratio = randf();
@@ -216,3 +242,8 @@ func toggle_static(enabled):
 	var nodes = get_tree().get_nodes_in_group("static")
 	for n in nodes.size():
 		nodes[n].visible = enabled
+
+
+func _on_hud_return_menu():
+	if audio_enabled:
+		$Music.play()

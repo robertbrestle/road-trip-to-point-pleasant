@@ -131,6 +131,16 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 text = " START "
 
+[node name="Label" type="Label" parent="TitleScreen"]
+offset_left = 844.0
+offset_top = 180.0
+offset_right = 1264.0
+offset_bottom = 264.0
+theme_override_font_sizes/font_size = 28
+text = "It's 10 miles to Point Pleasant...
+can you make it?"
+horizontal_alignment = 2
+
 [node name="ScoreLabel" type="Label" parent="."]
 visible = false
 offset_left = 1126.0

@@ -27,7 +27,6 @@ script = ExtResource("1_3x647")
 mob_scene = ExtResource("2_r8yxc")
 static_object_scene = ExtResource("3_7edhw")
 repair_scene = ExtResource("4_vpceu")
-audio_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -113,6 +112,7 @@ visible = false
 
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="spinout" from="Player" to="." method="_on_player_spinout"]
+[connection signal="return_menu" from="HUD" to="." method="_on_hud_return_menu"]
 [connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]

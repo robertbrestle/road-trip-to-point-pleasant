@@ -3,6 +3,9 @@ extends RigidBody2D
 @export var playerRef: Player
 var original_linear_velocity: Vector2
 
+var is_mothman: bool = false
+var mothman_texture
+
 const SCALE_END: float = 700
 const VELOCITY_DELAY: float = 0.25
 
@@ -18,22 +21,30 @@ func _ready():
 	$CollisionShape2D.scale = Vector2(scaled_size, scaled_size)
 	
 	# fetch random mob
-	var mob_types = $AnimatedSprite2D.sprite_frames.get_animation_names()
-	$AnimatedSprite2D.play(mob_types[randi() % mob_types.size()])
-	
-	var mob_animations = $AnimationPlayer.get_animation_list()
-	var animation = mob_animations[randi() % mob_animations.size()];
-	$AnimationPlayer.play(animation)
+	if is_mothman:
+		linear_velocity = original_linear_velocity * 200
+		$AnimatedSprite2D.play("zzz_mothman")
+	else:
+		var mob_types = $AnimatedSprite2D.sprite_frames.get_animation_names()
+		var mob = mob_types[randi() % (mob_types.size() - 1)]
+		$AnimatedSprite2D.play(mob)
+		
+		var mob_animations = $AnimationPlayer.get_animation_list()
+		var animation = mob_animations[randi() % mob_animations.size()];
+		$AnimationPlayer.play(animation)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if playerRef.car_speed == 0:
-		linear_velocity = Vector2(0, 0)
-		return
+	# if mothman, keep original velocity
+	if not is_mothman:
+		# if not mothman and speed is 0, stop mob
+		if playerRef.car_speed == 0:
+			linear_velocity = Vector2(0, 0)
+			return
+		# relative velocity
+		linear_velocity = original_linear_velocity * playerRef.car_speed * ((self.global_position.y / 720) * VELOCITY_DELAY)
 		
-	# relative velocity
-	linear_velocity = original_linear_velocity * playerRef.car_speed * ((self.global_position.y / 720) * VELOCITY_DELAY)
 	
 	$MobLabel.text = "Velocity = " + var_to_str(linear_velocity)
 	

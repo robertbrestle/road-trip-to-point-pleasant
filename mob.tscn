@@ -1,13 +1,25 @@
-[gd_scene load_steps=12 format=3 uid="uid://bnv04bok0ynml"]
+[gd_scene load_steps=16 format=3 uid="uid://bnv04bok0ynml"]
 
 [ext_resource type="Script" path="res://mob.gd" id="1_yt5cp"]
 [ext_resource type="Texture2D" uid="uid://bkyi6wns7qa8s" path="res://art/monsters/pumpkin.png" id="2_13n50"]
+[ext_resource type="Texture2D" uid="uid://cigud1p0o4blg" path="res://art/monsters/bat.png" id="2_q0d0h"]
 [ext_resource type="Texture2D" uid="uid://qpw1by6tyvf8" path="res://art/monsters/duck.png" id="2_yhkwk"]
 [ext_resource type="Texture2D" uid="uid://dnfv4ir58arav" path="res://art/monsters/ghost.png" id="3_h0ht6"]
 [ext_resource type="Texture2D" uid="uid://bstrh47vti6cs" path="res://art/monsters/skull.png" id="5_r82oh"]
+[ext_resource type="Texture2D" uid="uid://bw7tl2cluhrql" path="res://art/monsters/richard.png" id="6_fk7do"]
+[ext_resource type="Texture2D" uid="uid://b8oix6xqsguvg" path="res://art/monsters/mothman_big.png" id="6_xk2uc"]
+[ext_resource type="Texture2D" uid="uid://b25gk4c36w4hp" path="res://art/monsters/tux.png" id="8_ryvdl"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h52o2"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q0d0h")
+}],
+"loop": true,
+"name": &"bat",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_yhkwk")
@@ -34,10 +46,34 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("6_fk7do")
+}],
+"loop": true,
+"name": &"richard",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("5_r82oh")
 }],
 "loop": true,
 "name": &"skull",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_ryvdl")
+}],
+"loop": true,
+"name": &"tux",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_xk2uc")
+}],
+"loop": true,
+"name": &"zzz_mothman",
 "speed": 5.0
 }]
 
@@ -63,7 +99,7 @@ tracks/0/keys = {
 "values": [0.0, 6.28319]
 }
 
-[sub_resource type="Animation" id="Animation_7c5ah"]
+[sub_resource type="Animation" id="Animation_7wbes"]
 resource_name = "spin_reversed"
 loop_mode = 1
 tracks/0/type = "value"
@@ -83,7 +119,7 @@ tracks/0/keys = {
 _data = {
 "default": SubResource("Animation_q14ad"),
 "spin": SubResource("Animation_01mho"),
-"spin_reversed": SubResource("Animation_7c5ah")
+"spin_reversed": SubResource("Animation_7wbes")
 }
 
 [node name="Mob" type="RigidBody2D" groups=["despawn"]]
@@ -95,7 +131,7 @@ script = ExtResource("1_yt5cp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_h52o2")
-animation = &"skull"
+animation = &"ghost"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -0.5)
@@ -103,6 +139,7 @@ shape = SubResource("RectangleShape2D_ge8vt")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimatedSprite2D")
+autoplay = "default"
 libraries = {
 "": SubResource("AnimationLibrary_bmt8a")
 }

@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal start_game
+signal return_menu
 
 const ICON_SIZE: int = 32
 const ICON_OFFSET: int = 48
@@ -19,6 +20,7 @@ func _on_restart_button_pressed():
 	$SuccessScreen.hide()
 	$ScoreLabel.hide()
 	hide_all_icons()
+	return_menu.emit()
 	
 func start_new_game():
 	$TitleScreen.hide()
