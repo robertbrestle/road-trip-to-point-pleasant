@@ -6,6 +6,7 @@ extends Node
 
 @export var audio_enabled: bool = true
 @export var is_paused: bool = false
+@export var is_game_over: bool = false
 
 var player_distance_last_mob_spawn: int
 var spawn_mob_distance: int = 100
@@ -17,6 +18,7 @@ const DISTANCE_OFFSET: int = 160
 const QUARTER_MILE: int = 1320
 const FULL_MILE: int = 5280
 const FINISH_DISTANCE: int = (FULL_MILE * 10) + DISTANCE_OFFSET
+const ONLY_MOTHMAN_DISTANCE: int = (FULL_MILE * 9.5)
 
 
 const ROAD_LINE_INTERVAL: float = 41.25 # 128th of a mile
@@ -36,7 +38,7 @@ func _ready():
 	sign_texture = preload("res://art/sign.png")
 	road_line_texture = preload("res://art/backgrounds/road_lines_3.png")
 	mothman_texture = preload("res://art/monsters/mothman_big.png")
-	# preload audio clips	
+	# preload audio clips
 	hit_sounds.push_back(preload("res://audio/hit1.wav"))
 	hit_sounds.push_back(preload("res://audio/hit2.wav"))
 	hit_sounds.push_back(preload("res://audio/hit3.wav"))
@@ -96,11 +98,12 @@ func _on_hud_start_game():
 	$Music.stop()
 	
 	is_paused = false
+	is_game_over = false
 
 func _on_mob_timer_timeout():
 	if player_distance_last_mob_spawn + spawn_mob_distance < distance_traveled:
 		player_distance_last_mob_spawn = distance_traveled
-		if randi_range(0, 10) == 10:
+		if (distance_traveled > FULL_MILE and randi_range(0, 10) == 10) or distance_traveled > ONLY_MOTHMAN_DISTANCE:
 			spawn_mothman()
 		else:
 			spawn_mob()
@@ -188,6 +191,8 @@ func start_repair_minigame():
 	$HUD.toggle_cluster(false)
 
 func _on_player_spinout():
+	if is_game_over:
+		return
 	$HUD.toggle_cluster(false)
 	toggle_static(false)
 	$RepairMinigame.visible = true
@@ -229,6 +234,7 @@ func game_over():
 	$Player.stop()
 	$HUD.show_game_over("You made it to Point Pleasant!", elapsed_seconds, get_mileage_string(distance_traveled - DISTANCE_OFFSET), $Player.mobs_hit)
 	is_paused = true
+	is_game_over = true
 	if audio_enabled:
 		$CarHitSounds.stop()
 		$CarHitSounds.stream = tada_sound

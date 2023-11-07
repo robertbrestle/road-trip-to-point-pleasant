@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://ckl4n6qxrlcvo"]
+[gd_scene load_steps=18 format=3 uid="uid://ckl4n6qxrlcvo"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_ghlkv"]
 [ext_resource type="FontFile" uid="uid://mqyflaun1baf" path="res://fonts/Xolonium-Regular.ttf" id="2_ml80t"]
 [ext_resource type="Texture2D" uid="uid://kikwhcjrli0s" path="res://art/speedometer.png" id="3_dtac2"]
+[ext_resource type="Texture2D" uid="uid://dwl72tuqx1qfk" path="res://art/monsters/mothman_happy_big.png" id="3_jf5iq"]
 [ext_resource type="Texture2D" uid="uid://bis8y0ey7febd" path="res://art/needle.png" id="4_87j72"]
 [ext_resource type="Texture2D" uid="uid://br4r8jmfn4sgi" path="res://art/gauges.png" id="5_cc47r"]
 [ext_resource type="Texture2D" uid="uid://bm68trwl4dy8m" path="res://art/icons/engine.png" id="6_3iobe"]
@@ -233,6 +234,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 38
 text = "RESET"
+
+[node name="HappyMothman" type="TextureRect" parent="SuccessScreen"]
+offset_left = 828.0
+offset_top = 465.0
+offset_right = 1852.0
+offset_bottom = 1489.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_jf5iq")
 
 [node name="Speedometer" type="Sprite2D" parent="." groups=["cluster"]]
 position = Vector2(1169, 628)

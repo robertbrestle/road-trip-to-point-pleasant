@@ -16,7 +16,9 @@ config/quit_on_go_back=false
 config/features=PackedStringArray("4.1", "Forward Plus")
 run/max_fps=60
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
-config/icon="res://icon.svg"
+boot_splash/image="res://art/monsters/mothman.png"
+config/icon="res://art/monsters/mothman.png"
+boot_splash/minimum_display_time=1500
 
 [display]
 

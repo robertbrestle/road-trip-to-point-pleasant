@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bnv04bok0ynml"]
+[gd_scene load_steps=17 format=3 uid="uid://bnv04bok0ynml"]
 
 [ext_resource type="Script" path="res://mob.gd" id="1_yt5cp"]
 [ext_resource type="Texture2D" uid="uid://bkyi6wns7qa8s" path="res://art/monsters/pumpkin.png" id="2_13n50"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bw7tl2cluhrql" path="res://art/monsters/richard.png" id="6_fk7do"]
 [ext_resource type="Texture2D" uid="uid://b8oix6xqsguvg" path="res://art/monsters/mothman_big.png" id="6_xk2uc"]
 [ext_resource type="Texture2D" uid="uid://b25gk4c36w4hp" path="res://art/monsters/tux.png" id="8_ryvdl"]
+[ext_resource type="AudioStream" uid="uid://bitn131mjxcer" path="res://audio/mothman.mp3" id="10_88gvr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_h52o2"]
 animations = [{
@@ -153,5 +154,9 @@ offset_left = 66.0
 offset_right = 271.0
 offset_bottom = 45.0
 text = "hello world"
+
+[node name="MothmanSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_88gvr")
+volume_db = -16.0
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

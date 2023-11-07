@@ -24,7 +24,7 @@ const ULTRA_FAST_THRESHOLD: float = 10400
 const TOP_SPEED: float = 13000
 
 const SPEED_ACCELERATION: int = 20
-const SPEED_DECELERATION: int = 80
+const SPEED_DECELERATION: int = 40
 const SPEED_E_BRAKE: int = 200
 const HIT_PENALTY: int = 1000
 
@@ -79,6 +79,9 @@ func _process(delta):
 	
 	# TODO: add decaying velocity
 	
+	if not Input.is_anything_pressed():
+		$SpinoutSound.stop()
+	
 	# move side to side
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
@@ -88,9 +91,13 @@ func _process(delta):
 	# change velocity
 	if Input.is_action_pressed("e_brake") and car_speed > 0:
 		car_speed -= SPEED_E_BRAKE
+		if not $SpinoutSound.playing:
+			$SpinoutSound.play()
 	elif Input.is_action_pressed("move_down") and car_speed > 0:
+		$SpinoutSound.stop()
 		car_speed -= SPEED_DECELERATION
 	elif Input.is_action_pressed("move_up") and car_speed < TOP_SPEED:
+		$SpinoutSound.stop()
 		car_speed += SPEED_ACCELERATION
 	# prevent negative speeds
 	if car_speed < 0:

@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://cm86gaoa7rhac"]
+[gd_scene load_steps=14 format=3 uid="uid://cm86gaoa7rhac"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_akipq"]
 [ext_resource type="Texture2D" uid="uid://dopcwew221yjb" path="res://art/player_center.png" id="1_n7hn7"]
 [ext_resource type="Texture2D" uid="uid://dvmsjpbqxmu2u" path="res://art/player_left.png" id="2_w1ycg"]
 [ext_resource type="Texture2D" uid="uid://b6xu3btl85uky" path="res://art/player_right.png" id="3_r0yvx"]
+[ext_resource type="AudioStream" uid="uid://cb0kg663eso4c" path="res://audio/screech.mp3" id="5_eqf3q"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5lihb"]
 animations = [{
@@ -158,6 +159,10 @@ wait_time = 2.0
 
 [node name="SpinoutTimer" type="Timer" parent="."]
 wait_time = 2.0
+
+[node name="SpinoutSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_eqf3q")
+volume_db = -16.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]

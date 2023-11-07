@@ -24,6 +24,7 @@ func _ready():
 	if is_mothman:
 		linear_velocity = original_linear_velocity * 200
 		$AnimatedSprite2D.play("zzz_mothman")
+		$MothmanSound.play()
 	else:
 		var mob_types = $AnimatedSprite2D.sprite_frames.get_animation_names()
 		var mob = mob_types[randi() % (mob_types.size() - 1)]
